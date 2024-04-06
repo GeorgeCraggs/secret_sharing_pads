@@ -3,6 +3,7 @@ import {h, render} from "preact";
 import SecretEntryForm from "./SecretEntryForm.jsx";
 import SecretSharingPads from "./SecretSharingPads.jsx";
 import {cryptoRandInt, generateSecretSharingPadData} from "./encrypt.js";
+import MiniPads from "./MiniPads.jsx";
 
 function createPad(numberOfPads, description, secrets) {
 	const padId = cryptoRandInt(0, 999999).toString().padStart(6, "0");
@@ -20,7 +21,7 @@ function createPad(numberOfPads, description, secrets) {
 	
 	// Create window for generated pads
 	const padWindow = window.open("", padId);
-	padWindow.document.write("<html><head></head><body></body></html>")
+	padWindow.document.write("<!DOCTYPE html><html><head></head><body></body></html>")
 	padWindow.document.title = `Secret Sharing Pad ${padId}`;
 	const padWindowHead = padWindow.document.getElementsByTagName("head")[0];
 	const padWindowBody = padWindow.document.getElementsByTagName("body")[0];
@@ -32,9 +33,8 @@ function createPad(numberOfPads, description, secrets) {
 	}
 	
 	// Show the pads in the window and trigger a print
-	render(<SecretSharingPads
+	render(<MiniPads
 		padId={padId}
-		padColours={padColours}
 		description={description}
 		allEncryptedSecrets={allEncryptedSecrets}
 	/>, padWindowBody);
